@@ -48,8 +48,8 @@ uk24 <- data %>% select(9:11,13,14,19,20,26,30,31,34,35,40,41,42,47:49,51,52) %>
   ) # All variables of interests
 
 
-## 2. Spatial Patterns of Turnout and Participation
-### 2.1. Construction of indicators
+## 2. Spatial Patterns of Turnout and Competitiveness
+### 2.1. Absenteeism
 turnout <- uk24 %>% select(1:10) %>% # Only turnout and participation indicators
   distinct()
 
@@ -60,10 +60,40 @@ turnout$v1 <- 1- ((turnout$election_valid_vote_count +
 # v2 <- Absenteeism (considering only valid votes)
 turnout$v2 <- 1- (turnout$election_valid_vote_count/turnout$electorate)
 
-pcon_2024_merged <- pcon_2024 %>% # Merge with shapefile
-  left_join(turnout, by = c("PCON24CD" = "constituency_geographic_code"))
 
-# 
+### 2.2. Competitiveness
+comp <- uk24 %>% select(1:4,14,18)
+comp$main_party_abbreviation[comp$main_party_abbreviation == ""] <- "Independent"
+
+# Indicator of competitiveness
+comp <- comp %>%
+  group_by(constituency_geographic_code) %>%
+  arrange(desc(candidate_vote_share), .by_group = TRUE) %>%
+  mutate(
+    vote_share_lead = candidate_vote_share[1],
+    vote_share_runnerup = candidate_vote_share[2],
+    vote_share_margin = vote_share_lead - vote_share_runnerup
+  ) %>%
+  ungroup()
+
+comp_margin <- comp %>%
+  select(constituency_geographic_code, vote_share_margin) %>%
+  distinct()
+
+# Winners per constituency
+comp_winners <- comp %>%
+  group_by(constituency_geographic_code) %>%
+  slice_max(candidate_vote_share, n = 1, with_ties = FALSE) %>%
+  ungroup() 
+
+comp_winners <- comp_winners %>% select(constituency_geographic_code, 
+                                        main_party_abbreviation)
+
+turnout <- merge(turnout, comp_margin, by = "constituency_geographic_code")
+turnout <- merge(turnout, comp_winners, by = "constituency_geographic_code")
+
+pcon_2024_merged <- pcon_2024 %>% # Merge with shapefile
+  left_join(turnout, by = c("PCON24CD" = "constituency_geographic_code")) 
 
 
 
@@ -97,11 +127,11 @@ absenteeism_map <- ggplot(pcon_2024_merged) +
   geom_sf(aes(fill = v2), colour = NA) +  # no lines between polygons
   scale_fill_viridis_c(
     option = "A",  # high-contrast palette
-    name = "Absenteeism\n(Valid Votes)"
+    name = "Absenteeism (0-1)"
   ) +
   labs(
     title = "UK General Election 2024",
-    subtitle = "Absenteeism Rate Based on Valid Votes",
+    subtitle = "Absenteeism",
     caption = "Source: UK Parlament"
   ) +
   theme_minimal() +
@@ -116,6 +146,84 @@ absenteeism_map <- ggplot(pcon_2024_merged) +
 ggsave(
   filename = "absenteeism_v2_map_contrast.jpeg",
   plot = absenteeism_map,
+  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs",
+  width = 10,
+  height = 12,
+  dpi = 300
+)
+
+#### C: Spatial Patterns of Competitiveness
+comp_map <- ggplot(pcon_2024_merged) +
+  geom_sf(aes(fill = vote_share_margin), colour = NA) +  # no lines between polygons
+  scale_fill_viridis_c(
+    option = "A",  # high-contrast palette
+    name = "Margin (0-1)"
+  ) +
+  labs(
+    title = "UK General Election 2024",
+    subtitle = "Vote Share Margin",
+    caption = "Source: UK Parlament"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    panel.grid = element_blank(),   # remove grid
+    axis.text = element_blank(),    # remove axis labels
+    axis.title = element_blank()    # remove axis titles
+  )
+
+# Save it
+ggsave(
+  filename = "comp_map_contrast.jpeg",
+  plot = comp_map,
+  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs",
+  width = 10,
+  height = 12,
+  dpi = 300
+)
+
+
+#### D: Results
+party_colours <- c(
+  "Lab" = "#E4003B",      # Labour red
+  "Con" = "#0087DC",      # Conservative blue
+  "LD"  = "#FAA61A",      # Lib Dem orange
+  "SNP" = "#FFF95D",      # SNP yellow
+  "Green" = "#6AB023",    # Green Party green
+  "PC" = "#008142",       # Plaid Cymru green
+  "RUK" = "#A349A4",      # Reform UK purple
+  "DUP" = "#D46A4C",
+  "SF" = "#326760",
+  "SDLP" = "#003B71",
+  "APNI" = "#003B71",
+  "UUP" = "#003B71",
+  "TUV" = "#003B71",
+  "Independent" = "#B0B0B0"
+)
+
+party_map <- ggplot(pcon_2024_merged) +
+  geom_sf(aes(fill = main_party_abbreviation), colour = "gray", size = 0.05) +
+  scale_fill_manual(
+    values = party_colours,
+    name = "Winning Party"
+  ) +
+  labs(
+    title = "UK General Election 2024",
+    subtitle = "Winning Party by Constituency",
+    caption = "Source: UK Parliament"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  )
+
+# Save it
+ggsave(
+  filename = "party_map.jpeg",
+  plot = party_map,
   path = "/Users/alexander/Documents/GitHub/turnout-uk/figs",
   width = 10,
   height = 12,
