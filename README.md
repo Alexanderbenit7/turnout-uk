@@ -1,5 +1,5 @@
 <div align="right">
-  <img src="./images/logo.png" alt="Lime Team Logo" width="150">
+  <img src="./figs/logo.png" alt=" " width="150">
 </div>
 
 # A Topology of Voter Turnout in the United Kingdom
