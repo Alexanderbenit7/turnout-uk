@@ -19,5 +19,9 @@ The repository is structured as follows:
 - _tdaResiduals.ipynb_: Analysis of residuals patterns in the topologies
 - _tdaResidualMapping.ipynb_: Descriptive analysis of balls with low model performance
 
-![alt text](https://github.com/Alexanderbenit7/turnout-uk/blob/master/figs/absenteeism_v2_map_contrast.jpeg?raw=true)
 
+<p align="center">
+  <img src="https://github.com/Alexanderbenit7/turnout-uk/blob/master/figs/absenteeism_v2_map_contrast.jpeg?raw=true"
+       alt="Absenteeism map"
+       width="700">
+</p>
