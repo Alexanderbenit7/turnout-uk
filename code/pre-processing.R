@@ -828,7 +828,7 @@ dataTurnout <- dataTurnout %>%
   mutate(across(c(religious_fractionalization, ethnic_fractionalization), ~ round(., 4)))
 
 # Export
-export(dataTurnout, "dataTurnoutFinal.csv")
+# export(dataTurnout, "dataTurnoutFinal.csv")
 
 
 

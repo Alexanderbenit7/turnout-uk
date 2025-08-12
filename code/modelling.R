@@ -79,9 +79,9 @@ vif(ols_models[["2019"]])
 # Define output path
 output_path <- "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_models1.docx"
 # Export model summaries to Word
-modelsummary(ols_models,
-             stars = TRUE,
-             output = output_path)
+# modelsummary(ols_models,
+#             stars = TRUE,
+#             output = output_path)
 
 
 # Comparing predictors:
@@ -98,9 +98,9 @@ ols_models_std <- lapply(modelData_by_year_std, function(df) {
 names(ols_models_std) <- names(modelData_by_year)
 
 # 3. Export if needed
-modelsummary(ols_models_std,
-             stars = TRUE,
-             output = "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_models_std.docx")
+# modelsummary(ols_models_std,
+#             stars = TRUE,
+#             output = "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_models_std.docx")
 
 
 # Plot
@@ -127,14 +127,14 @@ coef <- ggplot(coeffs_df, aes(x = estimate, y = term, xmin = conf.low, xmax = co
   theme(legend.position = "bottom")
 
 # Save it
-ggsave(
-  filename = "beta_coef.jpeg",
-  plot = coef,
-  path = "/Users/alexander/Documents/MSc Data Science/erp-uom/results",
-  width = 10,
-  height = 8,
-  dpi = 600
-)
+# ggsave(
+#  filename = "beta_coef.jpeg",
+#  plot = coef,
+#  path = "/Users/alexander/Documents/MSc Data Science/erp-uom/results",
+#  width = 10,
+#  height = 8,
+#  dpi = 600
+# )
 
 
 ################## 2. OLS DIAGNOSTICS FOR SPATIAL DEPENDENCY ########################
@@ -253,8 +253,8 @@ doc <- body_add_par(doc, "Spatial Error Model (SEM) (2015)", style = "heading 2"
 doc <- body_add_flextable(doc, flextable(sem_summary))
 
 # STEP 3: Save the document
-output_path <- "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_vs_sem_2015.docx"
-print(doc, target = output_path)
+#output_path <- "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_vs_sem_2015.docx"
+# print(doc, target = output_path)
 
 # Extract residuals from the SEM
 resids_sem <- residuals(sem_2015)
@@ -405,11 +405,11 @@ names(ols_models_political) <- c("2010", "2015", "2017", "2019")
 output_path <- "/Users/alexander/Documents/MSc Data Science/erp-uom/results/ols_political_only.docx"
 
 # Export all models to a Word doc
-modelsummary(
-  ols_models_political,
-  stars = TRUE,
-  output = output_path
-)
+# modelsummary(
+#  ols_models_political,
+#  stars = TRUE,
+#  output = output_path
+# )
 
 
 ## Diagnostics

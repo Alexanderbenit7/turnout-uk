@@ -45,10 +45,10 @@ plot_matrix <- ggpairs(
   title = "Turnout Scatterplot Matrix with Pearson Correlations"
 )
 
-ggsave("turnout_scatterplot_matrix.jpg",
-       plot = plot_matrix,
-       path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/desc",
-       width = 10, height = 10, dpi = 600)
+# ggsave("turnout_scatterplot_matrix.jpg",
+#       plot = plot_matrix,
+#       path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/desc",
+#       width = 10, height = 10, dpi = 600)
 
 
 
@@ -90,10 +90,10 @@ clust_turnout <- ggplot(pca_df, aes(x = PC1, y = PC2, colour = cluster)) +
   theme_minimal() +
   scale_colour_brewer(palette = "Set1")
 
-ggsave("turnout_clusters_matrix.jpg",
-       plot = clust_turnout,
-       path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/clust",
-       width = 10, height = 10, dpi = 600)
+#ggsave("turnout_clusters_matrix.jpg",
+#       plot = clust_turnout,
+#       path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/clust",
+#       width = 10, height = 10, dpi = 600)
 
 
 
@@ -138,13 +138,13 @@ cluster_map <- ggplot(pcon_2010) +
   )
 
 # Save it
-ggsave(
-  filename = "cluster_map.jpeg",
-  plot = cluster_map,
-  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/clust",
-  width = 10,
-  height = 12,
-  dpi = 600
+# ggsave(
+#  filename = "cluster_map.jpeg",
+#  plot = cluster_map,
+#  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/clust",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
 )
 
 
@@ -264,7 +264,6 @@ for (year in years) {
   ggsave(
     filename = paste0("lisa_", year, ".jpeg"),
     plot = plot,
-    path = "//Users/alexander/Documents/GitHub/turnout-uk/figs/lisa",
     width = 10,
     height = 12,
     dpi = 600
@@ -314,14 +313,14 @@ low_any_map <- ggplot(pcon_2010) +
   )
 
 # Save the plot
-ggsave(
-  filename = "low_any_score_map.jpeg",
-  plot = low_any_map,
-  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/tda",
-  width = 10,
-  height = 12,
-  dpi = 600
-)
+#ggsave(
+#  filename = "low_any_score_map.jpeg",
+#  plot = low_any_map,
+#  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/tda",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
+#)
 
 
 ## Always low performing balls:
@@ -348,14 +347,14 @@ low_only_map <- ggplot(pcon_2010) +
   )
 
 # Save the plot
-ggsave(
-  filename = "low_only_score_map.jpeg",
-  plot = low_only_map,
-  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/tda",
-  width = 10,
-  height = 12,
-  dpi = 600
-)
+#ggsave(
+#  filename = "low_only_score_map.jpeg",
+#  plot = low_only_map,
+#  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/tda",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
+#)
 
 
 ### Residuals structure
@@ -450,7 +449,6 @@ for (i in seq_along(residual_vars)) {
   ggsave(
     filename = paste0("ols_residuals_map_", year, ".jpeg"),
     plot = residual_map,
-    path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/residuals/ols",
     width = 10,
     height = 12,
     dpi = 600
@@ -489,14 +487,14 @@ low_any_map <- ggplot(pcon_2010) +
   )
 
 # Save the plot
-ggsave(
-  filename = "low_fit_sem_2015.jpeg",
-  plot = low_any_map,
-  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/residuals/sem2015",
-  width = 10,
-  height = 12,
-  dpi = 600
-)
+#ggsave(
+#  filename = "low_fit_sem_2015.jpeg",
+#  plot = low_any_map,
+#  path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/residuals/sem2015",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
+#)
 
 
 #### Visualise SLAG models
@@ -585,7 +583,6 @@ for (i in seq_along(slag_residual_vars)) {
   ggsave(
     filename = paste0("slag_residuals_map_", year, ".jpeg"),
     plot = slag_residual_map,
-    path = "/Users/alexander/Documents/GitHub/turnout-uk/figs/residuals/slag",
     width = 10,
     height = 12,
     dpi = 600
