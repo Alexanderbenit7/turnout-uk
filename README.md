@@ -4,7 +4,7 @@
 
 # A Topology of Voter Turnout in the United Kingdom
 
-This repository contains my extended research project, submitted to the University of Manchester for the degree of Master of Science (MSc) in Data Science. The study’s objective is to generate a multidimensional map of the political and socioeconomic landscape of electoral participation in the UK. Using Topological Data Analysis Ball Mapper (TDABM) algorithm (Dłotko, 2019), I cluster the 650 parliamentary constituencies in a multidimensional space based on their observed characteristics at the 2010, 2015, 2017, and 2019 UK General Elections.
+This repository contains my extended research project, submitted to the University of Manchester for the degree of Master of Science (MSc) in Data Science. The study’s objective is to generate a multidimensional map of the political and socioeconomic landscape of electoral participation in the UK. Using Topological Data Analysis Ball Mapper (TDABM) algorithm (Dłotko, 2019), I clustered the 650 parliamentary constituencies in a multidimensional space based on their observed characteristics for the 2010, 2015, 2017, and 2019 UK General Elections.
 
 
 ![alt text](https://github.com/Alexanderbenit7/turnout-uk/blob/master/figs/full_topologies70_continuous.jpg?raw=true)
