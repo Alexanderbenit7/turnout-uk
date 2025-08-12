@@ -23,5 +23,5 @@ The repository is structured as follows:
 <p align="center">
   <img src="https://github.com/Alexanderbenit7/turnout-uk/blob/master/figs/absenteeism_v2_map_contrast.jpeg?raw=true"
        alt="Absenteeism map"
-       width="700">
+       width="600">
 </p>
