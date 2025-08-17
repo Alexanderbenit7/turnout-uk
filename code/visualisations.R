@@ -11,6 +11,7 @@ library(tidyr)
 # Open full dataset
 data <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/dataTurnoutFinal.csv')
 tda <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/constituency_low_participation_summary.csv')
+noNI <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/constituency_low_participation_summaryNI.csv')
 ols_residuals <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/collapsed_all.csv')
 slag_residuals <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/collapsed_all_lag.csv')
 sem15_residuals <- import('/Users/alexander/Documents/MSc Data Science/erp-uom/data/sem2015_residuals_mapping.csv')
@@ -145,7 +146,7 @@ cluster_map <- ggplot(pcon_2010) +
 #  width = 10,
 #  height = 12,
 #  dpi = 600
-)
+#)
 
 
 ## Moran's I
@@ -356,6 +357,79 @@ low_only_map <- ggplot(pcon_2010) +
 #  dpi = 600
 #)
 
+## Excluding Northern Ireland
+noNI <- noNI %>% select(1,3,4)
+colnames(noNI) <- c("constituency_geographic_code","low_any_scoreNI","low_only_scoreNI")
+
+# Merge
+pcon_2010 <- pcon_2010 %>% # Merge with shapefile
+  left_join(noNI, by = c("PCON20CD" = "constituency_geographic_code")) 
+
+# Make sure low_any_score is a factor for legend control
+pcon_2010$low_any_scoreNI <- as.factor(pcon_2010$low_any_scoreNI)
+
+# Plot the map
+low_any_mapNI <- ggplot(pcon_2010) +
+  geom_sf(aes(fill = low_any_scoreNI), colour = "gray80", size = 0.05) +
+  scale_fill_manual(
+    values = colours,
+    name = "Number of elections:"
+  ) +
+  labs(
+    title = "Number of elections",
+    subtitle = "Constituency was in at least one low-performing ball (excluding NI)",
+    caption = "Source: UK Parliament"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  )
+
+# Save the plot
+# ggsave(
+#  filename = "low_any_score_mapNI.jpeg",
+#  plot = low_any_mapNI,
+#  path = "/Users/alexander/Documents/MSc Data Science/erp-uom/figs/lowp",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
+#)
+
+## Always low performing balls:
+pcon_2010$low_only_scoreNI <- as.factor(pcon_2010$low_only_scoreNI)
+
+# Plot the map
+low_only_mapNI <- ggplot(pcon_2010) +
+  geom_sf(aes(fill = low_only_scoreNI), colour = "gray80", size = 0.05) +
+  scale_fill_manual(
+    values = colours,
+    name = "Number of elections:"
+  ) +
+  labs(
+    title = "Number of elections",
+    subtitle = "constituency was only in low-performing balls (excluding NI)",
+    caption = "Source: UK Parliament"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  )
+
+# Save the plot
+# ggsave(
+#  filename = "low_only_score_mapNI.jpeg",
+#  plot = low_only_mapNI,
+#  path = "/Users/alexander/Documents/MSc Data Science/erp-uom/figs/lowp",
+#  width = 10,
+#  height = 12,
+#  dpi = 600
+#)
 
 ### Residuals structure
 #### Visualise OLS 
